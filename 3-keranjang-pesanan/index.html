@@ -3,38 +3,287 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Pesan Online</title>
+    <meta name="description" content="Kapak Mart: pesan makanan dan minuman langsung dari meja, bayar dengan QRIS atau tunai.">
+    <title>Kapak Mart</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <a class="lewati" href="#konten">Lewati ke konten</a>
+
     <header class="atas">
-        <div class="wadah">
-            <!-- TODO: ganti dengan nama toko/warung -->
-            <a href="#" class="merek">Nama Toko</a>
-            <span>Keranjang: <strong id="jumlah-item">0</strong> item</span>
+        <div class="wadah bar">
+            <a class="merek" href="#konten">
+                <span class="logo" aria-hidden="true">🪓</span>
+                <span>Kapak Mart</span>
+            </a>
+            <nav class="aksi-atas" aria-label="Navigasi utama">
+                <button type="button" id="tombol-meja" class="chip-atas">
+                    <span aria-hidden="true">🪑</span>
+                    <span id="label-meja">Pilih meja</span>
+                </button>
+                <button type="button" id="tombol-riwayat" class="chip-atas">
+                    <span aria-hidden="true">🧾</span>
+                    <span>Riwayat <strong id="jumlah-riwayat">0</strong></span>
+                </button>
+                <a class="chip-atas" href="#keranjang">
+                    <span aria-hidden="true">🛒</span>
+                    <span>Pesanan <strong id="jumlah-item">0</strong></span>
+                </a>
+            </nav>
         </div>
     </header>
 
-    <main class="wadah tata">
-        <section>
-            <h2>Menu</h2>
-            <!-- Kartu menu diisi oleh script.js -->
-            <div id="daftar-menu" class="grid"></div>
+    <main id="konten">
+        <section class="hero" aria-labelledby="judul-hero">
+            <div class="wadah">
+                <h1 id="judul-hero">Pesan dari meja, tanpa antre</h1>
+                <p>Atur level pedas, topping, dan tingkat gula sesuai seleramu, lalu bayar langsung di sini.</p>
+                <ol class="langkah">
+                    <li>Pilih nomor meja</li>
+                    <li>Pilih menu dan atur pesanan</li>
+                    <li>Bayar dengan QRIS atau tunai</li>
+                    <li>Tunggu pesanan diantar</li>
+                </ol>
+            </div>
         </section>
 
-        <aside class="kartu keranjang">
-            <h2>Keranjang</h2>
-            <!-- Isi keranjang diisi oleh script.js -->
-            <ul id="isi-keranjang"></ul>
-            <p id="keranjang-kosong" class="redup">Keranjang masih kosong.</p>
-            <p class="total">Total: <strong id="total">Rp0</strong></p>
-            <button id="tombol-pesan" disabled>Pesan</button>
-        </aside>
+        <div class="wadah tata">
+            <section id="menu" aria-labelledby="judul-menu">
+                <div class="judul-menu">
+                    <h2 id="judul-menu">Menu</h2>
+                    <div class="filter" id="filter" role="group" aria-label="Filter kategori menu">
+                        <button type="button" class="aktif" data-kategori="semua" aria-pressed="true">Semua</button>
+                        <button type="button" data-kategori="makanan" aria-pressed="false">Makanan</button>
+                        <button type="button" data-kategori="minuman" aria-pressed="false">Minuman</button>
+                    </div>
+                </div>
+                <div id="daftar-menu" class="grid"></div>
+            </section>
+
+            <aside id="keranjang" class="kartu keranjang" aria-labelledby="judul-keranjang">
+                <h2 id="judul-keranjang">Pesananmu</h2>
+                <p class="info-meja">Diantar ke <strong id="meja-keranjang">Belum pilih meja</strong></p>
+                <ul id="isi-keranjang" class="daftar-keranjang"></ul>
+                <p id="keranjang-kosong" class="redup">Keranjang masih kosong. Yuk pilih menu dulu!</p>
+                <p id="info-voucher" class="info-voucher" hidden></p>
+                <p class="total">Total <strong id="total">Rp0</strong></p>
+                <button type="button" id="tombol-pesan" class="besar" disabled>Bayar</button>
+            </aside>
+        </div>
     </main>
 
     <footer class="bawah">
-        <div class="wadah">Mini Hackathon Teknologi Web · Nama Kelompok</div>
+        <div class="wadah">
+            <p>Hackathon Teknologi Web · Geng Kapak</p>
+        </div>
     </footer>
+
+    <a id="bar-bawah" class="bar-bawah" href="#keranjang" hidden>
+        <span><span id="bar-jumlah">0</span> item · Lihat pesanan</span>
+        <strong id="bar-total">Rp0</strong>
+    </a>
+
+    <p id="toast" class="toast" role="status" hidden></p>
+
+    <dialog id="dialog-meja" aria-labelledby="judul-meja">
+        <div class="dialog-isi">
+            <button type="button" id="tutup-meja" class="tutup" aria-label="Tutup pilihan meja">×</button>
+            <h2 id="judul-meja">Pilih Nomor Meja</h2>
+            <p class="redup">Pilih nomor yang tertera di mejamu agar pesanan diantar ke tempat yang tepat.</p>
+            <div id="grid-meja" class="grid-meja" role="group" aria-label="Daftar nomor meja"></div>
+        </div>
+    </dialog>
+
+    <dialog id="dialog-produk" aria-labelledby="produk-nama">
+        <form id="form-produk" class="produk">
+            <button type="button" id="tutup-produk" class="tutup tutup-foto" aria-label="Tutup detail menu">×</button>
+            <div id="produk-isi" class="produk-isi">
+                <div id="produk-foto"></div>
+                <div class="produk-teks">
+                    <p id="produk-mode" class="mode-ubah" hidden>Mengubah pesanan</p>
+                    <h2 id="produk-nama">Detail menu</h2>
+                    <p id="produk-harga" class="harga"></p>
+                    <p id="produk-deskripsi" class="redup"></p>
+                </div>
+                <div id="produk-opsi" class="produk-opsi"></div>
+                <div class="produk-catatan">
+                    <label for="catatan">Catatan untuk dapur (opsional)</label>
+                    <input id="catatan" name="catatan" type="text" maxlength="80" placeholder="Contoh: tanpa bawang goreng">
+                </div>
+            </div>
+            <div class="produk-bawah">
+                <div class="stepper" id="produk-stepper" role="group" aria-label="Jumlah porsi">
+                    <button type="button" id="produk-kurang" data-aksi="kurang" aria-label="Kurangi jumlah">−</button>
+                    <output id="produk-jumlah">1</output>
+                    <button type="button" id="produk-tambah" data-aksi="tambah" aria-label="Tambah jumlah">+</button>
+                </div>
+                <button type="submit" id="produk-simpan" class="besar">Tambah</button>
+            </div>
+        </form>
+    </dialog>
+
+    <dialog id="dialog-bayar" aria-labelledby="judul-bayar">
+        <div class="dialog-isi">
+            <button type="button" id="tutup-bayar" class="tutup" aria-label="Tutup pembayaran">×</button>
+
+            <section id="langkah-bayar" aria-labelledby="judul-bayar">
+                <h2 id="judul-bayar">Pembayaran</h2>
+
+                <ul id="bayar-ringkasan" class="ringkasan-bayar" aria-label="Ringkasan pesanan"></ul>
+
+                <dl class="tagihan">
+                    <dt>Antar ke</dt>
+                    <dd id="bayar-meja">-</dd>
+                    <dt>Subtotal</dt>
+                    <dd id="bayar-subtotal">Rp0</dd>
+                    <dt id="dt-diskon" hidden>Diskon voucher</dt>
+                    <dd id="bayar-diskon" hidden>-Rp0</dd>
+                    <dt>Total tagihan</dt>
+                    <dd id="bayar-total" class="nominal">Rp0</dd>
+                </dl>
+
+                <div class="voucher">
+                    <label for="kode-voucher">Punya kode voucher?</label>
+                    <div class="voucher-baris">
+                        <input id="kode-voucher" type="text" maxlength="16" placeholder="Masukkan kode" autocomplete="off">
+                        <button type="button" id="pakai-voucher">Pakai</button>
+                    </div>
+                    <p id="voucher-info" class="redup voucher-info" role="status"></p>
+                    <div id="voucher-cepat" class="cepat"></div>
+                </div>
+
+                <fieldset class="metode" id="pilih-metode">
+                    <legend>Metode pembayaran</legend>
+                    <label class="pilihan-chip">
+                        <input type="radio" name="metode" value="qris" checked>
+                        <span>QRIS</span>
+                    </label>
+                    <label class="pilihan-chip">
+                        <input type="radio" name="metode" value="ewallet">
+                        <span>E-Wallet</span>
+                    </label>
+                    <label class="pilihan-chip">
+                        <input type="radio" name="metode" value="va">
+                        <span>Transfer Bank</span>
+                    </label>
+                    <label class="pilihan-chip">
+                        <input type="radio" name="metode" value="tunai">
+                        <span>Tunai</span>
+                    </label>
+                </fieldset>
+
+                <div id="timer-bayar" class="timer">
+                    <span id="timer-label">Selesaikan pembayaran dalam</span>
+                    <strong id="timer-waktu">10:00</strong>
+                    <button type="button" id="perbarui-kode" hidden>Perbarui Kode</button>
+                </div>
+
+                <div id="panel-qris">
+                    <div id="qris-kotak" class="qris-kotak"></div>
+                    <p class="redup">Scan kode QRIS di atas dengan aplikasi e-wallet atau mobile banking.</p>
+                    <button type="button" id="konfirmasi-qris" class="besar">Pembayaran Diterima</button>
+                </div>
+
+                <div id="panel-ewallet" hidden>
+                    <fieldset class="metode" id="pilih-ewallet">
+                        <legend>Pilih e-wallet</legend>
+                        <label class="pilihan-chip">
+                            <input type="radio" name="ewallet" value="GoPay" checked>
+                            <span>GoPay</span>
+                        </label>
+                        <label class="pilihan-chip">
+                            <input type="radio" name="ewallet" value="OVO">
+                            <span>OVO</span>
+                        </label>
+                        <label class="pilihan-chip">
+                            <input type="radio" name="ewallet" value="DANA">
+                            <span>DANA</span>
+                        </label>
+                        <label class="pilihan-chip">
+                            <input type="radio" name="ewallet" value="ShopeePay">
+                            <span>ShopeePay</span>
+                        </label>
+                    </fieldset>
+                    <p id="ewallet-info" class="redup"></p>
+                    <button type="button" id="konfirmasi-ewallet" class="besar">Saya Sudah Bayar</button>
+                </div>
+
+                <div id="panel-va" hidden>
+                    <fieldset class="metode" id="pilih-bank">
+                        <legend>Pilih bank</legend>
+                        <label class="pilihan-chip">
+                            <input type="radio" name="bank" value="BCA" checked>
+                            <span>BCA</span>
+                        </label>
+                        <label class="pilihan-chip">
+                            <input type="radio" name="bank" value="BRI">
+                            <span>BRI</span>
+                        </label>
+                        <label class="pilihan-chip">
+                            <input type="radio" name="bank" value="Mandiri">
+                            <span>Mandiri</span>
+                        </label>
+                        <label class="pilihan-chip">
+                            <input type="radio" name="bank" value="BNI">
+                            <span>BNI</span>
+                        </label>
+                    </fieldset>
+                    <div class="kotak-va">
+                        <span class="redup">Nomor Virtual Account</span>
+                        <strong id="va-nomor">-</strong>
+                        <button type="button" id="salin-va">Salin Nomor</button>
+                    </div>
+                    <ol class="petunjuk">
+                        <li>Buka m-banking atau ATM bank pilihanmu.</li>
+                        <li>Pilih Transfer, lalu Virtual Account.</li>
+                        <li>Masukkan nomor di atas dan pastikan nominalnya sesuai.</li>
+                    </ol>
+                    <p class="redup">Nomor ini hanya contoh untuk demo.</p>
+                    <button type="button" id="konfirmasi-va" class="besar">Saya Sudah Transfer</button>
+                </div>
+
+                <form id="form-tunai" hidden>
+                    <label for="uang-diterima">Uang diterima</label>
+                    <input id="uang-diterima" name="uang" type="number" inputmode="numeric" min="0" placeholder="0">
+                    <div id="uang-cepat" class="cepat"></div>
+                    <p class="kembalian">Kembalian <strong id="kembalian">Rp0</strong></p>
+                    <button type="submit" id="konfirmasi-tunai" class="besar" disabled>Bayar</button>
+                </form>
+            </section>
+
+            <section id="langkah-proses" class="proses" aria-labelledby="judul-proses" aria-live="polite" hidden>
+                <span class="spinner" aria-hidden="true"></span>
+                <h2 id="judul-proses">Memverifikasi pembayaran</h2>
+                <p class="redup">Mohon tunggu sebentar dan jangan tutup halaman ini.</p>
+            </section>
+
+            <section id="langkah-sukses" class="sukses" aria-labelledby="judul-sukses" hidden>
+                <p class="centang" aria-hidden="true">✓</p>
+                <h2 id="judul-sukses">Pembayaran Berhasil</h2>
+                <p class="nomor-pesanan">No. pesanan <strong id="sukses-nomor">A001</strong></p>
+                <p id="sukses-ringkas" class="redup"></p>
+                <ul id="sukses-struk" class="rincian" aria-label="Rincian pesanan"></ul>
+                <p id="sukses-kembalian" class="kembalian-besar" hidden>Kembalian <strong id="sukses-nilai-kembalian">Rp0</strong></p>
+                <p id="sukses-pesan"></p>
+                <p class="redup">Pesanan ini tersimpan di Riwayat. Untuk pesanan berikutnya, pilih nomor meja lewat tombol "Pilih meja" di atas.</p>
+                <button type="button" id="transaksi-baru" class="besar">Transaksi Baru</button>
+            </section>
+        </div>
+    </dialog>
+
+    <dialog id="dialog-riwayat" aria-labelledby="judul-riwayat">
+        <div class="dialog-isi">
+            <button type="button" id="tutup-riwayat" class="tutup" aria-label="Tutup riwayat pesanan">×</button>
+            <h2 id="judul-riwayat">Riwayat Pesanan</h2>
+            <p class="redup">Pesanan yang sudah dibayar tersimpan di perangkat ini.</p>
+            <ul id="daftar-riwayat" class="daftar-riwayat"></ul>
+            <p id="riwayat-kosong" class="redup">Belum ada pesanan. Pesanan yang sudah dibayar akan muncul di sini.</p>
+            <button type="button" id="hapus-riwayat" class="besar sekunder" hidden>Hapus Semua Riwayat</button>
+        </div>
+    </dialog>
 
     <script src="script.js"></script>
 </body>
