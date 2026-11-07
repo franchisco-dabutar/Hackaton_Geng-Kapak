@@ -1,4 +1,12 @@
+/* =====================================================================
+   KAPAK MART · style.css
+   Pendekatan mobile-first: gaya dasar untuk layar kecil, lalu diperluas
+   dengan media query min-width untuk tablet (48rem) dan desktop (64rem).
+   Semua warna, jarak, dan ukuran memakai custom property di :root.
+   ===================================================================== */
+
 :root {
+    /* Warna: ganti di sini, seluruh halaman ikut berubah */
     --utama: #c2410c;
     --utama-tua: #9a3412;
     --utama-muda: #fff1e6;
@@ -14,6 +22,7 @@
     --lapisan: rgb(43 29 22 / 55%);
     --bayangan: 0 .375rem 1.25rem rgb(120 60 20 / 10%);
 
+    /* Jarak */
     --jarak-1: .25rem;
     --jarak-2: .5rem;
     --jarak-3: .75rem;
@@ -22,11 +31,13 @@
     --jarak-6: 2rem;
     --jarak-7: 3rem;
 
+    /* Bentuk */
     --radius-kecil: .5rem;
     --radius-sedang: .75rem;
     --radius-besar: 1.25rem;
     --radius-bulat: 62.5rem;
 
+    /* Ukuran */
     --lebar-maks: 72rem;
     --lebar-keranjang: 21rem;
     --lebar-dialog: 28rem;
@@ -35,6 +46,7 @@
     --ukuran-emoji: 3rem;
     --tinggi-bar-bawah: 5rem;
 
+    /* Tipografi */
     --font: 'Poppins', system-ui, sans-serif;
     --teks-kecil: .8125rem;
     --teks-dasar: 1rem;
@@ -87,6 +99,7 @@ h2 { font-size: var(--teks-besar); }
 }
 .lewati:focus { top: var(--jarak-2); }
 
+/* ---------- Tombol ---------- */
 button {
     font: inherit;
     font-weight: 500;
@@ -103,6 +116,7 @@ button:hover { background: var(--utama-tua); }
 button:disabled { opacity: .5; cursor: not-allowed; }
 .besar { width: 100%; padding-block: var(--jarak-3); font-size: var(--teks-dasar); }
 
+/* ---------- Header ---------- */
 .atas {
     position: sticky;
     top: 0;
@@ -143,6 +157,7 @@ button:disabled { opacity: .5; cursor: not-allowed; }
 }
 .chip-atas:hover { background: var(--garis); }
 
+/* ---------- Hero ---------- */
 .hero {
     padding-block: var(--jarak-6);
     color: var(--putih);
@@ -169,6 +184,7 @@ button:disabled { opacity: .5; cursor: not-allowed; }
 }
 .langkah li::before { content: counter(langkah) '. '; font-weight: 700; }
 
+/* ---------- Tata letak utama ---------- */
 .tata {
     display: grid;
     gap: var(--jarak-5);
@@ -194,6 +210,7 @@ button:disabled { opacity: .5; cursor: not-allowed; }
 .filter button:hover { background: var(--utama-muda); }
 .filter button.aktif { color: var(--putih); background: var(--utama); border-color: var(--utama); }
 
+/* ---------- Kartu & menu ---------- */
 .kartu {
     background: var(--kartu);
     border: .0625rem solid var(--garis);
@@ -214,6 +231,7 @@ button:disabled { opacity: .5; cursor: not-allowed; }
 }
 .kartu-menu:hover { transform: translateY(-.1875rem); }
 
+/* Tempat foto: kalau foto belum ada, emoji tetap terlihat */
 .foto {
     position: relative;
     display: grid;
@@ -252,6 +270,7 @@ button:disabled { opacity: .5; cursor: not-allowed; }
 .harga { font-weight: 700; color: var(--utama); }
 .info button { margin-top: auto; }
 
+/* ---------- Keranjang ---------- */
 .keranjang { padding: var(--jarak-4); }
 .keranjang h2 { margin-bottom: var(--jarak-2); }
 .info-meja { margin-bottom: var(--jarak-3); font-size: var(--teks-kecil); color: var(--redup); }
@@ -293,6 +312,7 @@ button:disabled { opacity: .5; cursor: not-allowed; }
 .stepper output, .stepper span { min-width: 1.5rem; text-align: center; font-weight: 600; }
 .stepper-kecil button { width: 2rem; height: 2rem; min-height: 0; }
 
+/* ---------- Dialog umum ---------- */
 dialog {
     width: calc(100% - var(--jarak-5));
     max-width: var(--lebar-dialog);
@@ -327,6 +347,7 @@ dialog::backdrop { background: var(--lapisan); }
 .tutup:hover { background: var(--garis); }
 .tutup-foto { background: var(--kartu); box-shadow: var(--bayangan); }
 
+/* ---------- Dialog pilih meja ---------- */
 .grid-meja {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -342,6 +363,7 @@ dialog::backdrop { background: var(--lapisan); }
 .grid-meja button:hover { background: var(--utama-muda); }
 .grid-meja button.aktif { color: var(--putih); background: var(--utama); border-color: var(--utama); }
 
+/* ---------- Dialog detail produk ---------- */
 #dialog-produk { overflow: hidden; }
 .produk {
     display: flex;
@@ -379,6 +401,7 @@ input[type='text']:focus, input[type='number']:focus { background: var(--kartu);
 }
 .produk-bawah .besar { flex: 1; }
 
+/* Grup opsi: level pedas, suhu, gula, topping, dst. */
 fieldset { min-width: 0; margin: 0 0 var(--jarak-4); padding: 0; border: 0; }
 legend {
     display: flex;
@@ -424,6 +447,7 @@ legend {
 .baris-topping input { width: 1.25rem; height: 1.25rem; accent-color: var(--utama); }
 .baris-topping .harga-opsi { margin-left: auto; font-size: var(--teks-kecil); color: var(--redup); }
 
+/* ---------- Dialog pembayaran ---------- */
 .tagihan {
     display: grid;
     grid-template-columns: 1fr auto;
@@ -498,6 +522,7 @@ legend {
 .nomor-pesanan strong { display: block; font-size: var(--teks-judul); color: var(--utama-tua); }
 .kembalian-besar strong { display: block; font-size: var(--teks-judul); color: var(--sukses); }
 
+/* ---------- Tambahan: ubah pesanan & voucher di keranjang ---------- */
 .baris-harga { display: flex; align-items: center; gap: var(--jarak-3); }
 .tombol-ubah {
     min-height: 0;
@@ -532,6 +557,7 @@ legend {
 .sekunder { color: var(--utama-tua); background: var(--utama-muda); }
 .sekunder:hover { background: var(--garis); }
 
+/* ---------- Tambahan: pembayaran (rincian, voucher, timer, e-wallet, VA) ---------- */
 .ringkasan-bayar, .rincian { margin: var(--jarak-3) 0; padding: 0; list-style: none; }
 .ringkasan-bayar { max-height: 9rem; overflow-y: auto; }
 .ringkasan-bayar li, .rincian li {
@@ -607,6 +633,7 @@ legend {
 }
 @keyframes putar { to { transform: rotate(360deg); } }
 
+/* ---------- Tambahan: riwayat pesanan ---------- */
 .daftar-riwayat { display: grid; gap: var(--jarak-3); margin: var(--jarak-4) 0 0; padding: 0; list-style: none; }
 .riwayat-item { padding: var(--jarak-3); }
 .riwayat-kepala { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--jarak-3); }
@@ -618,6 +645,7 @@ legend {
 #riwayat-kosong { margin-top: var(--jarak-4); text-align: center; }
 #hapus-riwayat { margin-top: var(--jarak-4); }
 
+/* ---------- Elemen melayang ---------- */
 .bar-bawah {
     position: fixed;
     inset-inline: var(--jarak-3);
@@ -646,6 +674,7 @@ legend {
     border-radius: var(--radius-bulat);
 }
 
+/* ---------- Footer ---------- */
 .bawah {
     padding-block: var(--jarak-5);
     font-size: var(--teks-kecil);
@@ -655,8 +684,10 @@ legend {
     border-top: .0625rem solid var(--garis);
 }
 
+/* Header tiga tombol: boleh turun baris di layar sempit */
 .aksi-atas { flex-wrap: wrap; justify-content: flex-end; }
 
+/* ---------- Tablet ---------- */
 @media (min-width: 48rem) {
     .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--jarak-4); }
     .grid-meja { grid-template-columns: repeat(5, minmax(0, 1fr)); }
@@ -664,6 +695,7 @@ legend {
     .info { padding: var(--jarak-4); }
 }
 
+/* ---------- Desktop ---------- */
 @media (min-width: 64rem) {
     body { padding-bottom: 0; }
     .bar-bawah { display: none; }
